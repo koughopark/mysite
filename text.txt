@@ -1,0 +1,37 @@
+1. pycham 에서 mysite 프로젝트 생성
+2. django 설치
+3. mysqlclient 설치
+    터미널에서
+    pip install mysqlclient==1.3.12
+4. django에서 django-admin startproject mysite
+5. 디렉토리 정리
+6. settings.py
+    TIME_ZONE = 'Asia/Seoul'
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'djdb',
+            'USER': 'djdb',
+            'PASSWORD': 'djdb',
+            'HOST': '127.0.0.1',
+            'PORT': '3306'
+        }
+    }
+7. 기본적으로 장고 프로젝트가 관리하는 테이블 생성하기
+   터미널에서
+   python manage.py migrate
+8. 장고 프로젝트의 관리자 계정 생성
+   python manage.py createsuperuser
+9. 지금까지 작업 확인하기
+   1) 서버 시작하기
+      터미널에서
+      python manage.py runserver 0.0.0.0:8888
+    2) 브라우저로 접근
+      http://localhost:8888
+
+10.app 생성
+   python manage.py startapp (name)
+
+11. settings 처리
+12. urls
+13. views
