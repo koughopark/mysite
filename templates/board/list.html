@@ -1,10 +1,13 @@
+{% extends "../base.html" %}
+{% load mathfilters %}
+
 {% block css_link %}
 <link href="/assets/css/board.css" rel="stylesheet" type="text/css">
 {% endblock %}
 
 			{% block content %}
 			<div id="board">
-				<form id="search_form" action="" method="post">
+				<form id="search_form" action="" method="post">{% csrf_token %}
 					<input type="text" id="kwd" name="kwd" value="">
 					<input type="submit" value="찾기">
 				</form>
@@ -17,19 +20,24 @@
 						<th>작성일</th>
 						<th>&nbsp;</th>
 					</tr>
-
+					{% for board in board_list %}
 					<tr>
-						<td>1</td>
-						<td><a href="/board/view">첫 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-09-25 07:24:32</td>
-						<td><a href="/board/modify" class="del">삭제</a></td>
+						<td>{{ board_list.count | add:1 | sub:forloop.counter }}</td>
+						<td><a href="/board/view?id={{ board.id }}">{{ board.title }}</a></td>
+						<td>{{ board.name }}</td>
+						<td>{{ board.hit }}</td>
+						<td>{{ board.regdate|date:'Y-m-d H:i:s' }}</td>
+						<td><a href="/board/delete?id={{ board.id }}" class="del">삭제</a></td>
 					</tr>
+					{% endfor %}
 
 				</table>
 				<div class="bottom">
-					<a href="/board/wirte" id="new-book">글쓰기</a>
-				</div>				
+					{% if request.session.authuser is not None%}
+						<a href="/user/joinform" id="new-book">글쓰기</a>
+					{% else %}
+						<a href="/board/write" id="new-book">글쓰기</a>
+					{% endif %}
+				</div>
 			</div>
 			{% endblock %}
