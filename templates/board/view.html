@@ -13,7 +13,7 @@
 					</tr>
 					<tr>
 						<td class="label">제목</td>
-						<td> {{ board.name }} </td>
+						<td> {{ board.title }} </td>
 					</tr>
 					<tr>
 						<td class="label">내용</td>
@@ -24,10 +24,11 @@
 						</td>
 					</tr>
 				</table>
-				{% endfor %}
+
 				<div class="bottom">
 					<a href="/board">글목록</a>
-					<a href="/board/modify">글수정</a>
+					<a href="/board/modifyform?id={{ board.id }}">글수정</a>
 				</div>
+				{% endfor %}
 			</div>
 			{% endblock %}

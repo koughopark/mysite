@@ -24,7 +24,7 @@
 					<tr>
 						<td>{{ board_list.count | add:1 | sub:forloop.counter }}</td>
 						<td><a href="/board/view?id={{ board.id }}">{{ board.title }}</a></td>
-						<td>{{ board.name }}</td>
+						<td>{{ board.user.name }}</td>
 						<td>{{ board.hit }}</td>
 						<td>{{ board.regdate|date:'Y-m-d H:i:s' }}</td>
 						<td><a href="/board/delete?id={{ board.id }}" class="del">삭제</a></td>
@@ -34,9 +34,9 @@
 				</table>
 				<div class="bottom">
 					{% if request.session.authuser is not None%}
-						<a href="/user/joinform" id="new-book">글쓰기</a>
-					{% else %}
 						<a href="/board/write" id="new-book">글쓰기</a>
+					{% else %}
+						<a href="/user/loginform" id="new-book">글쓰기</a>
 					{% endif %}
 				</div>
 			</div>
