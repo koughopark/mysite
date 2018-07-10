@@ -27,7 +27,8 @@
 
 				<div class="bottom">
 					<a href="/board">글목록</a>
-					<a href="/board/modify?id={{ board.id }}">글수정</a>
+					<a href="/board/modifyform?id={{ board.id }}">글수정</a>
+					<input type="hidden" id="kwd" name="kwd" value="request.session.['authuser']">
 				</div>
 				{% endfor %}
 			</div>

@@ -19,7 +19,8 @@ def view(request):
     board_list = Board.objects.filter(id=id).order_by('-regdate')
 
     context = {'board_list': board_list}
-    print(context)
+    board = board_list[0]
+    hit_update(board)
 
     return render(request, 'board/view.html', context)
 
@@ -35,8 +36,7 @@ def add(request):
     board_txt.title = request.POST['title']
     board_txt.content = request.POST['content']
     board_txt.user_id = request.session['authuser']['id']
-    print(board_txt.user_id)
-    board_txt.hit = 18
+    board_txt.hit = 0
     board_txt.name = request.session['authuser']['name']
 
     board_txt.save()
@@ -45,38 +45,54 @@ def add(request):
 
 
 # -------------------------------------------------------------------------------
+def modifyform(request):
+    id = request.GET.get('id', False)
+    board_list = Board.objects.filter(id=id)
+    board = board_list[0]
+    context = {'board': board}
+
+    print(request.session.authuser)
+
+    if request.GET.get('id', False) is not None:
+        if board.id == request.session['authuser']['id']:
+            return render(request, 'board/modify.html', context)
+        else:
+            return HttpResponseRedirect('/board')
+    else:
+        return render(request, 'board/view.html', context)
+
+
 def modify(request):
+    id = request.POST.get('id')
+    board_save = Board.objects.get(id=id)
+    board_save.title = request.POST['title']
+    board_save.content = request.POST['content']
+    board_save.save()
+
+    return HttpResponseRedirect('/board/view?id=' + id)
+
+
+def hit_update(board):
+    board.hit += 1
+    board.save()
+
+
+# -------------------------------------------------------------------------------
+def delete(request):
     try:
         id = request.GET.get('id', False)
 
         board_list = Board.objects.filter(id=id)
 
         for i in board_list:
-            board = i.user.id
-
-        context = {'board_list': board_list}
+            board = i.user_id
 
         if board == request.session['authuser']['id']:
-            return render(request, 'board/modify.html', context)
-        else:
-            return render(request, 'board/view.html', context)
-    except :
-        return render(request, 'board/view.html', context)
+            count = Board.objects.filter(id=id).count()
 
+            if count != 0:
+                Board.objects.filter(id=id).delete()
 
-# -------------------------------------------------------------------------------
-def delete(request):
-    id = request.GET.get('id', False)
-
-    board_list = Board.objects.filter(id=id)
-
-    for i in board_list:
-        board = i.user_id
-
-    if board == request.session['authuser']['id']:
-        count = Board.objects.filter(id=id).count()
-
-        if count != 0:
-            Board.objects.filter(id=id).delete()
-
-    return HttpResponseRedirect('/board')
+        return HttpResponseRedirect('/board')
+    except:
+        return HttpResponseRedirect('/board')

@@ -26,7 +26,7 @@
 						<td><a href="/board/view?id={{ board.id }}">{{ board.title }}</a></td>
 						<td>{{ board.user.name }}</td>
 						<td>{{ board.hit }}</td>
-						<td>{{ board.regdate|date :'Y-m-d H:i:s' }}</td>
+						<td>{{ board.regdate|date:'Y-m-d H:i:s' }}</td>
 						<td><a href="/board/delete?id={{ board.id }}" class="del"><img id="delete" src="/assets/images/recycle.png"> 삭제</a></td>
 					</tr>
 					{% endfor %}

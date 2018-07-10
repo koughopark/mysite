@@ -1,11 +1,17 @@
+{% extends "../base.html" %}
 {% block css_link %}
 <link href="/assets/css/board.css" rel="stylesheet" type="text/css">
 {% endblock %}
 
 			{% block content %}
 			<div id="board">
+				{% if request.session.authuser is None %}
+				<form class="board-form" method="post" action="/user/loginform">{% csrf_token %}
+				{% else %}
 				<form class="board-form" method="post" action="/board/modify">{% csrf_token %}
-					{% for board in board_list %}
+				{% endif %}
+
+					<input type="hidden" name ='id'  value='{{ board_list.id }}'>
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글수정</th>
@@ -23,7 +29,7 @@
 							</td>
 						</tr>
 					</table>
-					{% endfor %}
+
 					<div class="bottom">
 						<a href="/board">취소</a>
 						<input type="submit" value="수정">
