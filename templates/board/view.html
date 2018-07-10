@@ -27,8 +27,11 @@
 
 				<div class="bottom">
 					<a href="/board">글목록</a>
+					{% if request.session.authuser.id is None %}
+					<a href="/board">글수정</a>
+					{% else %}
 					<a href="/board/modifyform?id={{ board.id }}">글수정</a>
-					<input type="hidden" id="kwd" name="kwd" value="request.session.['authuser']">
+					{% endif %}
 				</div>
 				{% endfor %}
 			</div>

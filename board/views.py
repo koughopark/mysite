@@ -51,18 +51,13 @@ def modifyform(request):
     board = board_list[0]
     context = {'board': board}
 
-    print(request.session.authuser)
 
-    if request.GET.get('id', False) is not None:
-        if board.id == request.session['authuser']['id']:
-            return render(request, 'board/modify.html', context)
-        else:
-            return HttpResponseRedirect('/board')
-    else:
-        return render(request, 'board/view.html', context)
+    return render(request, 'board/modify.html', context)
+
 
 
 def modify(request):
+
     id = request.POST.get('id')
     board_save = Board.objects.get(id=id)
     board_save.title = request.POST['title']
