@@ -30,7 +30,11 @@
 					{% if request.session.authuser.id is None %}
 					<a href="/board">글수정</a>
 					{% else %}
-					<a href="/board/modifyform?id={{ board.id }}">글수정</a>
+						{% if request.session.authuser.id == board.user.id %}
+						<a href="/board/modifyform?id={{ board.id }}">글수정</a>
+						{% else %}
+						<a href="/board">글수정</a>
+						{% endif %}
 					{% endif %}
 				</div>
 				{% endfor %}
